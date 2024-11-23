@@ -1,0 +1,1 @@
+web: gunicorn nwal_data_model.wsgi
