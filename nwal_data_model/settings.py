@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_wn+djflq_os7mhf6a)50@8%vzgx4(e3%o8)!xj%_47=08d&w=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['nwal_data_model.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['nwal_data_model.herokuapp.com','localhost','nwaldatamodel-002498d21bb6.herokuapp.com']
 
 # Application definition
 
@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'nwal_data_model.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'officiator',
-        'USER': 'swimorg',
-        'PASSWORD': 'swimorgpw',
-        'HOST': 'localhost',
+        'NAME': 'd10uncm2arg6me',
+        'USER': 'u75fpn4pq36rm9',
+        'PASSWORD': 'pde321f363d73a1f1d239fccebfdda736a6b2d9bdb42a36a608b88257a6ebd297',
+        'HOST': 'c5p86clmevrg5s.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
