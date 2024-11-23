@@ -1,0 +1,4 @@
+manage.py
+.idea
+.venv
+nwal_data_model/__pycache__
