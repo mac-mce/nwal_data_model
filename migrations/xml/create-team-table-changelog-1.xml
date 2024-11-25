@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="${default_author}" id="team-create-table" failOnError="true">
+        <comment>Create a table to store Teams</comment>
+        <createTable tableName="team">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_team"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="abbreviation" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="division_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="pool_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="team"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="${default_author}" id="team-create-ux1" failOnError="true">
+        <comment>Team Names must be unique</comment>
+        <createIndex
+                indexName="ux_team_name"
+                tableName="team"
+                unique="true">
+            <column name="name"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet author="${default_author}" id="team-create-ux2" failOnError="true">
+        <comment>Team Name Abbreviations must be unique</comment>
+        <createIndex
+                indexName="ux_team_abbreviation"
+                tableName="team"
+                unique="true">
+            <column name="abbreviation"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet author="${default_author}" id="team-create-fk1">
+        <comment>Divisions can have multiple Teams</comment>
+        <addForeignKeyConstraint baseColumnNames="division_id"
+                                 baseTableName="team"
+                                 constraintName="fk_team_division"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="division"
+        />
+    </changeSet>
+    <changeSet author="${default_author}" id="team-create-fk2">
+        <comment>Teams need a Pool to swim in</comment>
+        <addForeignKeyConstraint baseColumnNames="pool_id"
+                                 baseTableName="team"
+                                 constraintName="fk_team_pool"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pool"
+        />
+    </changeSet>
+</databaseChangeLog>

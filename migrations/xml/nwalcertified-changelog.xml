@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="smallint_type" value="SMALLINT" dbms="postgresql,mssql,hsqldb"/>
+    <property name="smallint_type" value="NUMBER(2)" dbms="oracle"/>
+
+    <property name="default_author" value="macmce@pm.me"/>
+
+    <property name="default_timestamp" value="2025-12-01 1:00:00.0" dbms="postgresql,mssql,hsqldb"/>
+    <property name="default_timestamp" value="01-DEC-25 1.00.00.0 AM" dbms="oracle"/>
+
+    <include file="./create-system_property-table-changelog-1.xml"/>
+    <include file="./create-league-table-changelog-1.xml"/>
+    <include file="./create-division-table-changelog-1.xml"/>
+    <include file="./create-pool-table-changelog-1.xml"/>
+    <include file="./create-team-table-changelog-1.xml"/>
+    <include file="./create-certification-table-changelog-1.xml"/>
+
+</databaseChangeLog>
