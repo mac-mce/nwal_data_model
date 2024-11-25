@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="${default_author}" id="pool-create-table" failOnError="true">
         <comment>Create a table to store Pools</comment>
-        <createTable tableName="pool">
+        <createTable tableName="tms_pool">
             <column name="id" type="INT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_pool"/>
+                <constraints primaryKey="true" primaryKeyName="pk_tms_pool"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -30,6 +30,15 @@
             <column name="bidirectional" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
+            <column name="parking_rules" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="setup_rules" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="restrictions" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -38,15 +47,15 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="pool"/>
+            <dropTable tableName="org_tms_pool"/>
         </rollback>
     </changeSet>
 
     <changeSet author="${default_author}" id="pool-create-ux" failOnError="true">
         <comment>Pool names must be unique</comment>
         <createIndex
-                indexName="ux_pool_name"
-                tableName="pool"
+                indexName="ux_tms_pool_name"
+                tableName="tms_pool"
                 unique="true">
             <column name="name"/>
         </createIndex>

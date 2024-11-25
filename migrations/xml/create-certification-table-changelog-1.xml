@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="${default_author}" id="certification-create-table" failOnError="true">
         <comment>Create the Certification table</comment>
-        <createTable tableName="certification">
+        <createTable tableName="crt_certification">
             <column name="id" type="INT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_certification"/>
+                <constraints primaryKey="true" primaryKeyName="pk_crt_certification"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -32,25 +32,25 @@
             <dropTable tableName="certification"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="certification-create-ux" failOnError="true">
+    <changeSet author="${default_author}" id="crt_certification-create-ux" failOnError="true">
         <comment>Index the Certification table</comment>
         <createIndex
-                indexName="ix_certifications_name"
-                tableName="certification"
+                indexName="ix_crt_certification_name"
+                tableName="crt_certification"
                 unique="true">
             <column name="name"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="certification-create-fk">
+    <changeSet author="${default_author}" id="crt_certification-create-fk">
         <comment>Link certifications to parent to create a certification hierarchy</comment>
         <addForeignKeyConstraint baseColumnNames="parent_certification_id"
-                                 baseTableName="certification"
-                                 constraintName="fk_parent_certification_id"
+                                 baseTableName="crt_certification"
+                                 constraintName="fk_parent_crt_certification_id"
                                  onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
-                                 referencedTableName="certification"
+                                 referencedTableName="crt_certification"
         />
     </changeSet>
 

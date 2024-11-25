@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="${default_author}" id="division-create-table" failOnError="true">
         <comment>Create a table to store Divisions</comment>
-        <createTable tableName="division">
+        <createTable tableName="org_division">
             <column name="id" type="INT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_division"/>
+                <constraints primaryKey="true" primaryKeyName="pk_org_division"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -18,7 +18,7 @@
             <column name="description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="league_id" type="INT">
+            <column name="org_league_id" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
@@ -29,14 +29,14 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="division"/>
+            <dropTable tableName="org_division"/>
         </rollback>
     </changeSet>
     <changeSet author="${default_author}" id="division-add-ux" failOnError="true">
         <comment>Division names must be unique</comment>
         <createIndex
-                indexName="ux_division_name"
-                tableName="division"
+                indexName="ux_org_division_name"
+                tableName="org_division"
                 unique="true">
             <column name="name"/>
         </createIndex>
@@ -44,13 +44,13 @@
 
     <changeSet author="${default_author}" id="division-league-fk">
         <comment>A League can have many Divisions</comment>
-        <addForeignKeyConstraint baseColumnNames="league_id"
-                                 baseTableName="division"
-                                 constraintName="fk_division_league"
+        <addForeignKeyConstraint baseColumnNames="org_league_id"
+                                 baseTableName="org_division"
+                                 constraintName="fk_org_division_league"
                                  onDelete="CASCADE"
                                  onUpdate="RESTRICT"
                                  referencedColumnNames="id"
-                                 referencedTableName="league"
+                                 referencedTableName="org_league"
         />
     </changeSet>
 </databaseChangeLog>

@@ -10,6 +10,8 @@
 
     <property name="default_author" value="macmce@pm.me"/>
 
+    <property name="default_tenantid" value="NWAL"/>
+
     <property name="default_timestamp" value="2025-12-01 1:00:00.0" dbms="postgresql,mssql,hsqldb"/>
     <property name="default_timestamp" value="01-DEC-25 1.00.00.0 AM" dbms="oracle"/>
 
