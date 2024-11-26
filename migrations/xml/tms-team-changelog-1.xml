@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="${default_author}" id="tms-team-role-table">
+        <comment>Create Team Role table</comment>
         <createTable tableName="tms_team_role">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_role"/>
@@ -28,7 +29,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-role-name-ux" failOnError="true">
-        <comment>Team Role names must be unique</comment>
+        <comment>Names must be unique</comment>
         <createIndex
                 indexName="tms_team_role_name_ux"
                 tableName="tms_team_role"
@@ -38,6 +39,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-role-init" failOnError="true">
+        <comment>Insert roles</comment>
         <insert tableName="tms_team_role">
             <column name="name">Team Rep</column>
             <column name="tenantid">${default_tenantid}</column>
@@ -56,7 +58,8 @@
         </insert>
     </changeSet>
 
-    <changeSet author="${default_author}" id="tms_team_contact-table">
+    <changeSet author="${default_author}" id="tms-team-contact-table">
+        <comment>Create Team Contact table</comment>
         <createTable tableName="tms_team_contact">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_contact"/>
@@ -105,7 +108,7 @@
 
 
     <changeSet author="${default_author}" id="tms-team-contact-team-role-fk">
-        <comment>Teams can have multiple Contacts by Role</comment>
+        <comment>Teams have Contacts</comment>
         <addForeignKeyConstraint baseColumnNames="tms_team_role_id"
                                  baseTableName="tms_team_contact"
                                  constraintName="fk_tms_team_contact_role"
@@ -117,6 +120,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-status-table">
+        <comment>Create Team Status table</comment>
         <createTable tableName="tms_team_status">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_status"/>
@@ -144,7 +148,7 @@
 
 
     <changeSet author="${default_author}" id="tms-team-status-name-ux" failOnError="true">
-        <comment>Status Names must be unique</comment>
+        <comment>Names must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_status_name"
                 tableName="tms_team_status"
@@ -154,6 +158,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms_team_status-init" failOnError="true">
+        <comment>Insert status</comment>
         <insert tableName="tms_team_status">
             <column name="name">ACTIVE</column>
             <column name="active">true</column>
@@ -177,7 +182,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-create-table" failOnError="true">
-        <comment>Create a table to store Teams</comment>
+        <comment>Create Team table</comment>
         <createTable tableName="tms_team">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team"/>
@@ -216,7 +221,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-name-ux" failOnError="true">
-        <comment>Team Names must be unique</comment>
+        <comment>Names must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_name"
                 tableName="tms_team"
@@ -226,7 +231,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-code-ux" failOnError="true">
-        <comment>Team Codes must be unique</comment>
+        <comment>Codes must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_code"
                 tableName="tms_team"
@@ -236,7 +241,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-division-fk">
-        <comment>Divisions can have multiple Teams</comment>
+        <comment>Divisions haveTeams</comment>
         <addForeignKeyConstraint baseColumnNames="org_division_id"
                                  baseTableName="tms_team"
                                  constraintName="fk_tms_team_division"
@@ -247,8 +252,8 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="TMS-team-pool-fk">
-        <comment>Teams need a Pool to swim in</comment>
+    <changeSet author="${default_author}" id="tms-team-pool-fk">
+        <comment>Teams have Pools</comment>
         <addForeignKeyConstraint baseColumnNames="tms_pool_id"
                                  baseTableName="tms_team"
                                  constraintName="fk_tms_team_pool"
@@ -260,7 +265,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-status-fk">
-        <comment>The status</comment>
+        <comment>Teams have status</comment>
         <addForeignKeyConstraint baseColumnNames="tms_team_status_id"
                                  baseTableName="tms_team"
                                  constraintName="fk_tms_team_status"

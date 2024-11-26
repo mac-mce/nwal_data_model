@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="${default_author}" id="crt_test-create-table" failOnError="true">
-        <comment>Create the Test table</comment>
+        <comment>Create Test table</comment>
         <createTable tableName="crt_test">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_test"/>
@@ -45,8 +45,8 @@
             <dropTable tableName="crt_test"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="crt_test-create-ux" failOnError="true">
-        <comment>Index the Test table</comment>
+    <changeSet author="${default_author}" id="crt_test-name-ux" failOnError="true">
+        <comment>Name must be unique</comment>
         <createIndex
                 indexName="ix_crt_test_name"
                 tableName="crt_test"
@@ -55,7 +55,7 @@
         </createIndex>
     </changeSet>
 
-   <changeSet author="${default_author}" id="crt_test-create-fk-1">
+   <changeSet author="${default_author}" id="crt_test-certification-fk">
         <comment>Link appropriate certification for the test</comment>
         <addForeignKeyConstraint baseColumnNames="crt_certification_id"
                                  baseTableName="crt_test"
@@ -67,8 +67,8 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="question-create-table" failOnError="true">
-        <comment>Create the Test Type table</comment>
+    <changeSet author="${default_author}" id="crt-question-create-table" failOnError="true">
+        <comment>Create Test Type table</comment>
         <createTable tableName="crt_question">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_question"/>
@@ -129,7 +129,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="crt_question-fk-1">
+    <changeSet author="${default_author}" id="crt_question-fk">
         <comment>Link appropriate certification for the question</comment>
         <addForeignKeyConstraint baseColumnNames="crt_certification_id"
                                  baseTableName="crt_question"
@@ -142,8 +142,8 @@
     </changeSet>
 
 
-    <changeSet author="${default_author}" id="test-question-table" failOnError="true">
-        <comment>Create the Test Type table</comment>
+    <changeSet author="${default_author}" id="crt-test-question-table" failOnError="true">
+        <comment>Create Test Type table</comment>
         <createTable tableName="crt_test_question">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_test_question"/>

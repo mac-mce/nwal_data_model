@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="certification-create-table" failOnError="true">
-        <comment>Create the Certification table</comment>
+    <changeSet author="${default_author}" id="crt-certification-create-table" failOnError="true">
+        <comment>Create Certification table</comment>
         <createTable tableName="crt_certification">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_certification"/>
@@ -36,7 +36,7 @@
         </rollback>
     </changeSet>
     <changeSet author="${default_author}" id="crt-certification-name-ux" failOnError="true">
-        <comment>Certification Names must be unique</comment>
+        <comment>Names must be unique</comment>
         <createIndex
                 indexName="ix_crt_certification_name"
                 tableName="crt_certification"
@@ -46,7 +46,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="crt-certification-certification-fk">
-        <comment>Link certifications to parent to create a certification hierarchy</comment>
+        <comment>Certifications can have Parent Certifications</comment>
         <addForeignKeyConstraint baseColumnNames="parent_certification_id"
                                  baseTableName="crt_certification"
                                  constraintName="fk_parent_crt_certification_id"

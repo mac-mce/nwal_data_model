@@ -3,11 +3,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="org-league-table" failOnError="true">
-        <comment>Create a table to store Leagues</comment>
-        <createTable tableName="org_league">
+    <changeSet author="${default_author}" id="sys-property-table" failOnError="true">
+        <comment>Create System Properties table</comment>
+        <createTable tableName="sys_property">
             <column name="id" type="INT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="pk_org_league"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_sys_property"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -15,7 +15,7 @@
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(255)">
+            <column name="property_value" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
@@ -26,16 +26,23 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="org_league"/>
+            <dropTable tableName="sys_property"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="org-league-name-ux" failOnError="true">
-        <comment>League names must be unique</comment>
+    <changeSet author="${default_author}" id="sys-property-name-ux" failOnError="true">
+        <comment>Names must be unique</comment>
         <createIndex
-                indexName="ux_org_league_name"
-                tableName="org_league"
+                indexName="ux_sys_property_name"
+                tableName="sys_property"
                 unique="true">
             <column name="name"/>
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="${default_author}" id="sys-property-tenantid-ix" failOnError="true">
+        <comment>Index by tenantid</comment>
+        <createIndex indexName="ix_tenantid" tableName="sys_property">
+            <column name="tenantid"/>
         </createIndex>
     </changeSet>
 </databaseChangeLog>

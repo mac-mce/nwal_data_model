@@ -15,11 +15,11 @@
     <property name="default_timestamp" value="2025-12-01 1:00:00.0" dbms="postgresql,mssql,hsqldb"/>
     <property name="default_timestamp" value="01-DEC-25 1.00.00.0 AM" dbms="oracle"/>
 
-    <include file="./create-system_property-table-changelog-1.xml"/>
-    <include file="./create-league-table-changelog-1.xml"/>
-    <include file="./create-division-table-changelog-1.xml"/>
-    <include file="./create-pool-table-changelog-1.xml"/>
-    <include file="./create-team-table-changelog-1.xml"/>
+    <include file="./sys-property-changelog-1.xml"/>
+    <include file="./org-league-changelog-1.xml"/>
+    <include file="./org-division-changelog-1.xml"/>
+    <include file="./tms-pool-changelog-1.xml"/>
+    <include file="./tms-team-changelog-1.xml"/>
     <include file="./crt-certification-changelog-1.xml"/>
     <include file="./crt-tests-changelog-1.xml"/>
 

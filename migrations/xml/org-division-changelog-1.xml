@@ -3,11 +3,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="sys-property-table" failOnError="true">
-        <comment>Create a table to store System Properties</comment>
-        <createTable tableName="sys_property">
+    <changeSet author="${default_author}" id="org-division-table" failOnError="true">
+        <comment>Create Division table</comment>
+        <createTable tableName="org_division">
             <column name="id" type="INT" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_sys_property"/>
+                <constraints primaryKey="true" primaryKeyName="pk_org_division"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -15,7 +15,10 @@
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="property_value" type="VARCHAR(255)">
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_league_id" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
@@ -26,22 +29,28 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="sys_property"/>
+            <dropTable tableName="org_division"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="sys-property-name-ux" failOnError="true">
-        <comment>System Property names must be unique</comment>
+    <changeSet author="${default_author}" id="org-division-name-ux" failOnError="true">
+        <comment>Names must be unique</comment>
         <createIndex
-                indexName="ux_sys_property_name"
-                tableName="sys_property"
+                indexName="ux_org_division_name"
+                tableName="org_division"
                 unique="true">
             <column name="name"/>
-            <column name="tenantid"/>
         </createIndex>
     </changeSet>
-    <changeSet author="${default_author}" id="sys-property-tenantid-ix" failOnError="true">
-        <createIndex indexName="ix_tenantid" tableName="sys_property">
-            <column name="tenantid"/>
-        </createIndex>
+
+    <changeSet author="${default_author}" id="org-division-league-fk">
+        <comment>Leagues have Divisions</comment>
+        <addForeignKeyConstraint baseColumnNames="org_league_id"
+                                 baseTableName="org_division"
+                                 constraintName="fk_org_division_league"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="org_league"
+        />
     </changeSet>
 </databaseChangeLog>
