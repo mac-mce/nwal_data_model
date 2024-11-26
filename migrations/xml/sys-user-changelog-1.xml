@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+     <changeSet author="${default_author}" id="sys-role-table" failOnError="true">
+        <comment>Create a table to store Roles</comment>
+        <createTable tableName="sys_role">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sys_role"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sys_role"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="${default_author}" id="sys-role-name-ux" failOnError="true">
+        <comment>Role names must be unique</comment>
+        <createIndex
+                indexName="ux_role_name"
+                tableName="sys_role"
+                unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="${default_author}" id="sys-user-table" failOnError="true">
+        <comment>Create a table to store Users</comment>
+        <createTable tableName="sys_user">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sys_user"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- column name="password" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column-->
+            <column name="locale_id" type="VARCHAR(50)" defaultValue="en_US">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sys_user"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user-username-ux" failOnError="true">
+        <comment>User names must be unique</comment>
+        <createIndex
+                indexName="ux_user_username"
+                tableName="sys_user"
+                unique="true">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user-email_address-ux" failOnError="true">
+        <comment>E-mail addresses must be unique</comment>
+        <createIndex
+                indexName="ux_user_email_address"
+                tableName="sys_user"
+                unique="true">
+            <column name="email_address"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user_role-table" failOnError="true">
+        <comment>Create a table to store Users</comment>
+        <createTable tableName="sys_user_role">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sys_user_role"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sys_user_role"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="${default_author}" id="sys-user-user_role-ux" failOnError="true">
+        <comment>Users cannot have duplicate role assignments</comment>
+        <addUniqueConstraint
+                columnNames="user_id, role_id"
+                constraintName="ux_user_user_role"
+                tableName="sys_user_role"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user-role-user-fk">
+        <comment>Users get background Checks</comment>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="sys_user_role"
+                                 constraintName="fk_crt_user_role_user_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user-role-role-fk">
+        <comment>Users get background Checks</comment>
+        <addForeignKeyConstraint baseColumnNames="role_id"
+                                 baseTableName="sys_user_role"
+                                 constraintName="fk_crt_user_role__id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_role"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user_bg-table" failOnError="true">
+        <comment>Create a table to store User Background Checks</comment>
+        <createTable tableName="sys_user_bg_check">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sys_user_bg_check"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="issuer" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verified" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sys_user_bg_check"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user_bg-fk">
+        <comment>Users get background Checks</comment>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="sys_user_bg_check"
+                                 constraintName="fk_crt_bg_check_user_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
+    </changeSet>
+
+
+</databaseChangeLog>

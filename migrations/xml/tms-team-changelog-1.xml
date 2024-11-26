@@ -56,6 +56,10 @@
             <column name="name">Head Referee</column>
             <column name="tenantid">${default_tenantid}</column>
         </insert>
+        <insert tableName="tms_team_role">
+            <column name="name">Coach</column>
+            <column name="tenantid">${default_tenantid}</column>
+        </insert>
     </changeSet>
 
     <changeSet author="${default_author}" id="tms-team-contact-table">

@@ -52,6 +52,18 @@
         />
     </changeSet>
 
+    <changeSet author="${default_author}" id="crt_test-attempt-user-fk">
+        <comment>Link questions</comment>
+        <addForeignKeyConstraint baseColumnNames="taker_id"
+                                 baseTableName="crt_test_attempt"
+                                 constraintName="fk_crt_test_attempt_user_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
+    </changeSet>
+
     <changeSet author="${default_author}" id="crt-test-attapt-answer-table" failOnError="true">
         <comment>Create Test Attempt Answer table</comment>
         <createTable tableName="crt_test_attempt_answer">

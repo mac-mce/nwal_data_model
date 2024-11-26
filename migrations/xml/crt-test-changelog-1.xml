@@ -120,6 +120,10 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column name="active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -146,7 +150,7 @@
 
 
     <changeSet author="${default_author}" id="crt-test-question-table" failOnError="true">
-        <comment>Create Test Type table</comment>
+        <comment>Create Test Question table</comment>
         <createTable tableName="crt_test_question">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_test_question"/>
@@ -157,9 +161,44 @@
             <column name="crt_test_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="crt_question_id" type="INT">
+
+
+            <column name="question" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+
+            <column name="question_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="answer_1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="answer_2" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="answer_3" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="answer_4" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="answer_5" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="answer_6" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="correct_answer" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -181,19 +220,6 @@
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
                                  referencedTableName="crt_test"
-        />
-    </changeSet>
-
-
-    <changeSet author="${default_author}" id="crt_test-question-question-fk">
-        <comment>Link certifications</comment>
-        <addForeignKeyConstraint baseColumnNames="crt_question_id"
-                                 baseTableName="crt_test_question"
-                                 constraintName="fk_crt_test_question_id"
-                                 onDelete="NO ACTION"
-                                 onUpdate="NO ACTION"
-                                 referencedColumnNames="id"
-                                 referencedTableName="crt_question"
         />
     </changeSet>
 

@@ -24,6 +24,9 @@
             <column name="years_valid" type="INT" defaultValue="2">
                 <constraints nullable="false"/>
             </column>
+            <column name="background_check_required" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
