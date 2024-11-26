@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="pool-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="tms-pool-table" failOnError="true">
         <comment>Create a table to store Pools</comment>
         <createTable tableName="tms_pool">
             <column name="id" type="INT" autoIncrement="true">
@@ -51,7 +51,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="pool-create-ux" failOnError="true">
+    <changeSet author="${default_author}" id="tms-pool-name-ux" failOnError="true">
         <comment>Pool names must be unique</comment>
         <createIndex
                 indexName="ux_tms_pool_name"

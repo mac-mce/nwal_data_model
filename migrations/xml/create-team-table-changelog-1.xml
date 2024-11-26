@@ -4,7 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet author="${default_author}" id="team-role-create-1">
+    <changeSet author="${default_author}" id="tms-team-role-table">
         <createTable tableName="tms_team_role">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_role"/>
@@ -23,21 +23,21 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="team"/>
+            <dropTable tableName="tms_team_role"/>
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-role-create-ux1" failOnError="true">
-        <comment>Role names must be unique</comment>
+    <changeSet author="${default_author}" id="tms-team-role-name-ux" failOnError="true">
+        <comment>Team Role names must be unique</comment>
         <createIndex
-                indexName="ux_tms_team_role_name"
+                indexName="tms_team_role_name_ux"
                 tableName="tms_team_role"
                 unique="true">
             <column name="name"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="init-tms_team_role-1" failOnError="true">
+    <changeSet author="${default_author}" id="tms-team-role-init" failOnError="true">
         <insert tableName="tms_team_role">
             <column name="name">Team Rep</column>
             <column name="tenantid">${default_tenantid}</column>
@@ -56,7 +56,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-contact-create-fk3">
+    <changeSet author="${default_author}" id="tms_team_contact-table">
         <createTable tableName="tms_team_contact">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_contact"/>
@@ -70,25 +70,27 @@
             <column name="tms_team_role_id" type="INT">
                 <constraints nullable="true"/>
             </column>
-
-
             <column name="address" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="city" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="state" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
-
             <column name="postal_code" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-
-
-
-
+            <column name="mobile" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comments" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -97,13 +99,13 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="team"/>
+            <dropTable tableName="tms_team_contact"/>
         </rollback>
     </changeSet>
 
 
-    <changeSet author="${default_author}" id="team-contact-role-fk1">
-        <comment>Divisions can have multiple Teams</comment>
+    <changeSet author="${default_author}" id="tms-team-contact-team-role-fk">
+        <comment>Teams can have multiple Contacts by Role</comment>
         <addForeignKeyConstraint baseColumnNames="tms_team_role_id"
                                  baseTableName="tms_team_contact"
                                  constraintName="fk_tms_team_contact_role"
@@ -114,7 +116,7 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-status-create-fk3">
+    <changeSet author="${default_author}" id="tms-team-status-table">
         <createTable tableName="tms_team_status">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_tms_team_status"/>
@@ -136,12 +138,12 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="team"/>
+            <dropTable tableName="tms_team_status"/>
         </rollback>
     </changeSet>
 
 
-    <changeSet author="${default_author}" id="team-status-create-ux1" failOnError="true">
+    <changeSet author="${default_author}" id="tms-team-status-name-ux" failOnError="true">
         <comment>Status Names must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_status_name"
@@ -151,7 +153,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="init-tms_team_status-1" failOnError="true">
+    <changeSet author="${default_author}" id="tms_team_status-init" failOnError="true">
         <insert tableName="tms_team_status">
             <column name="name">ACTIVE</column>
             <column name="active">true</column>
@@ -174,7 +176,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="tms-team-create-table" failOnError="true">
         <comment>Create a table to store Teams</comment>
         <createTable tableName="tms_team">
             <column name="id" type="INT" autoIncrement="true">
@@ -192,15 +194,9 @@
             <column name="mascot" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-
-
-<!-- contacts rep-pres-coc -->
-
             <column name="tms_team_status_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-
-
             <column name="org_division_id" type="INT">
                 <constraints nullable="true"/>
             </column>
@@ -215,11 +211,11 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="team"/>
+            <dropTable tableName="tms_team"/>
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="tms_team-create-ux1" failOnError="true">
+    <changeSet author="${default_author}" id="tms-team-name-ux" failOnError="true">
         <comment>Team Names must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_name"
@@ -229,7 +225,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="tms_team-create-ux2" failOnError="true">
+    <changeSet author="${default_author}" id="tms-team-code-ux" failOnError="true">
         <comment>Team Codes must be unique</comment>
         <createIndex
                 indexName="ux_tms_team_code"
@@ -239,7 +235,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-create-fk1">
+    <changeSet author="${default_author}" id="tms-team-division-fk">
         <comment>Divisions can have multiple Teams</comment>
         <addForeignKeyConstraint baseColumnNames="org_division_id"
                                  baseTableName="tms_team"
@@ -251,7 +247,7 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-create-fk2">
+    <changeSet author="${default_author}" id="TMS-team-pool-fk">
         <comment>Teams need a Pool to swim in</comment>
         <addForeignKeyConstraint baseColumnNames="tms_pool_id"
                                  baseTableName="tms_team"
@@ -263,7 +259,7 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="team-create-fk3">
+    <changeSet author="${default_author}" id="tms-team-status-fk">
         <comment>The status</comment>
         <addForeignKeyConstraint baseColumnNames="tms_team_status_id"
                                  baseTableName="tms_team"

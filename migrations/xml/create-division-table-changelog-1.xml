@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="division-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="org-division-table" failOnError="true">
         <comment>Create a table to store Divisions</comment>
         <createTable tableName="org_division">
             <column name="id" type="INT" autoIncrement="true">
@@ -32,7 +32,7 @@
             <dropTable tableName="org_division"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="division-add-ux" failOnError="true">
+    <changeSet author="${default_author}" id="org-division-name-ux" failOnError="true">
         <comment>Division names must be unique</comment>
         <createIndex
                 indexName="ux_org_division_name"
@@ -42,7 +42,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="division-league-fk">
+    <changeSet author="${default_author}" id="org-division-league-fk">
         <comment>A League can have many Divisions</comment>
         <addForeignKeyConstraint baseColumnNames="org_league_id"
                                  baseTableName="org_division"

@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="sys-property-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="sys-property-table" failOnError="true">
         <comment>Create a table to store System Properties</comment>
         <createTable tableName="sys_property">
             <column name="id" type="INT" autoIncrement="true">
@@ -29,7 +29,7 @@
             <dropTable tableName="sys_property"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="sys-property-create-ux" failOnError="true">
+    <changeSet author="${default_author}" id="sys-property-name-ux" failOnError="true">
         <comment>System Property names must be unique</comment>
         <createIndex
                 indexName="ux_sys_property_name"
@@ -39,7 +39,7 @@
             <column name="tenantid"/>
         </createIndex>
     </changeSet>
-    <changeSet author="${default_author}" id="sys-property-create-ix1" failOnError="true">
+    <changeSet author="${default_author}" id="sys-property-tenantid-ix" failOnError="true">
         <createIndex indexName="ix_tenantid" tableName="sys_property">
             <column name="tenantid"/>
         </createIndex>

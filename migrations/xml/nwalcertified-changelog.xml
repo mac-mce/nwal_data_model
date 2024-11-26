@@ -20,6 +20,7 @@
     <include file="./create-division-table-changelog-1.xml"/>
     <include file="./create-pool-table-changelog-1.xml"/>
     <include file="./create-team-table-changelog-1.xml"/>
-    <include file="./create-certification-table-changelog-1.xml"/>
+    <include file="./crt-certification-changelog-1.xml"/>
+    <include file="./crt-tests-changelog-1.xml"/>
 
 </databaseChangeLog>

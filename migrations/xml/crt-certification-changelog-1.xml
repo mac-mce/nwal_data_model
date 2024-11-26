@@ -21,6 +21,9 @@
             <column name="parent_certification_id" type="INT">
                 <constraints nullable="true"/>
             </column>
+            <column name="years_valid" type="INT" defaultValue="2">
+                <constraints nullable="false"/>
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -29,11 +32,11 @@
             </column>
         </createTable>
         <rollback>
-            <dropTable tableName="certification"/>
+            <dropTable tableName="crt_certification"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="crt_certification-create-ux" failOnError="true">
-        <comment>Index the Certification table</comment>
+    <changeSet author="${default_author}" id="crt-certification-name-ux" failOnError="true">
+        <comment>Certification Names must be unique</comment>
         <createIndex
                 indexName="ix_crt_certification_name"
                 tableName="crt_certification"
@@ -42,7 +45,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet author="${default_author}" id="crt_certification-create-fk">
+    <changeSet author="${default_author}" id="crt-certification-certification-fk">
         <comment>Link certifications to parent to create a certification hierarchy</comment>
         <addForeignKeyConstraint baseColumnNames="parent_certification_id"
                                  baseTableName="crt_certification"

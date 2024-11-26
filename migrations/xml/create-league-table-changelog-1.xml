@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="league-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="org-league-table" failOnError="true">
         <comment>Create a table to store Leagues</comment>
         <createTable tableName="org_league">
             <column name="id" type="INT" autoIncrement="true">
@@ -29,7 +29,7 @@
             <dropTable tableName="org_league"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="league-create-ux" failOnError="true">
+    <changeSet author="${default_author}" id="org-league-name-ux" failOnError="true">
         <comment>League names must be unique</comment>
         <createIndex
                 indexName="ux_org_league_name"
