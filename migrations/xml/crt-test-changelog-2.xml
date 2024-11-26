@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="${default_author}" id="crt-test-attempt-table" failOnError="true">
+        <comment>Create Test Attempt table</comment>
+        <createTable tableName="crt_test_attempt">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_crt_test_attempt"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="submitted" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crt_test_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taker_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="score" type="SMALLINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="crt_test_attempt"/>
+        </rollback>
+    </changeSet>
+   
+    <changeSet author="${default_author}" id="crt_test-attempt-test-fk">
+        <comment>Link questions</comment>
+        <addForeignKeyConstraint baseColumnNames="crt_test_id"
+                                 baseTableName="crt_test_attempt"
+                                 constraintName="fk_crt_test_attempt_test_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crt_test"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="crt-test-attapt-answer-table" failOnError="true">
+        <comment>Create Test Attempt Answer table</comment>
+        <createTable tableName="crt_test_attempt_answer">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_crt_test_attempt_answer"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crt_test_attempt_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crt_test_question_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="answer" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="crt_test_attempt_answer"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="crt_test-attampt-answer-attempt-fk">
+        <comment>Link questions</comment>
+        <addForeignKeyConstraint baseColumnNames="crt_test_attempt_id"
+                                 baseTableName="crt_test_attempt_answer"
+                                 constraintName="fk_crt_test_attempt_answer_test_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crt_test_attempt"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="rt_test-attampt-answer-question-fk">
+        <comment>Link questions</comment>
+        <addForeignKeyConstraint baseColumnNames="crt_test_question_id"
+                                 baseTableName="crt_test_attempt_answer"
+                                 constraintName="fk_crt_test_attempt_answer_question_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crt_test_question"
+        />
+    </changeSet>
+
+</databaseChangeLog>

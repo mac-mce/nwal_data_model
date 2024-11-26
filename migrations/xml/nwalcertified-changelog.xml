@@ -21,6 +21,7 @@
     <include file="./tms-pool-changelog-1.xml"/>
     <include file="./tms-team-changelog-1.xml"/>
     <include file="./crt-certification-changelog-1.xml"/>
-    <include file="./crt-tests-changelog-1.xml"/>
+    <include file="./crt-test-changelog-1.xml"/>
+    <include file="./crt-test-changelog-2.xml"/>
 
 </databaseChangeLog>

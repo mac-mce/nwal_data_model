@@ -4,7 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet author="${default_author}" id="crt_test-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="crt-test-table" failOnError="true">
         <comment>Create Test table</comment>
         <createTable tableName="crt_test">
             <column name="id" type="INT" autoIncrement="true">
@@ -28,6 +28,9 @@
             <column name="number_questions" type="INT" defaultValue="50">
                 <constraints nullable="false"/>
             </column>
+            <column name="max_attempts" type="INT" defaultValue="3">
+                <constraints nullable="false"/>
+            </column>
             <column name="active_from" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -45,7 +48,7 @@
             <dropTable tableName="crt_test"/>
         </rollback>
     </changeSet>
-    <changeSet author="${default_author}" id="crt_test-name-ux" failOnError="true">
+    <changeSet author="${default_author}" id="crt-test-name-ux" failOnError="true">
         <comment>Name must be unique</comment>
         <createIndex
                 indexName="ix_crt_test_name"
@@ -68,7 +71,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="crt-question-create-table" failOnError="true">
-        <comment>Create Test Type table</comment>
+        <comment>Create Question table</comment>
         <createTable tableName="crt_question">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_crt_question"/>
@@ -129,7 +132,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="crt_question-fk">
+    <changeSet author="${default_author}" id="crt-question-fk">
         <comment>Link appropriate certification for the question</comment>
         <addForeignKeyConstraint baseColumnNames="crt_certification_id"
                                  baseTableName="crt_question"
@@ -151,15 +154,12 @@
             <column name="tenantid" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-
             <column name="crt_test_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-
             <column name="crt_question_id" type="INT">
                 <constraints nullable="false"/>
             </column>
-
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -172,7 +172,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="${default_author}" id="crt_test-question-test-fk">
+    <changeSet author="${default_author}" id="crt-test-question-test-fk">
         <comment>Link questions</comment>
         <addForeignKeyConstraint baseColumnNames="crt_test_id"
                                  baseTableName="crt_test_question"
