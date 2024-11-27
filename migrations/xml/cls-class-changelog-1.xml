@@ -101,5 +101,127 @@
     </changeSet>
 
 
+    <changeSet author="${default_author}" id="cls-class-roster-table" failOnError="true">
+        <comment>Create class roster table</comment>
+        <createTable tableName="cls_class_roster">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_cls_class_roster"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="student_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobile" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attended_class" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="walk_in" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cls_class_roster"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="cls-class-class-roster-fk">
+        <comment>Claases are for Certifications</comment>
+        <addForeignKeyConstraint baseColumnNames="class_id"
+                                 baseTableName="cls_class_roster"
+                                 constraintName="fk_cls_class_roster_class_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cls_class"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="cls-class-user-fk">
+        <comment>Link questions</comment>
+        <addForeignKeyConstraint baseColumnNames="student_id"
+                                 baseTableName="cls_class_roster"
+                                 constraintName="fk_cls_class_roster_user_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="cls-class-location-table" failOnError="true">
+        <comment>Create class location table</comment>
+        <createTable tableName="cls_class_location">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_cls_class_location"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobile" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cls_class_location"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="cls-class-class-location-fk">
+        <comment>Claases are for Certifications</comment>
+        <addForeignKeyConstraint baseColumnNames="class_id"
+                                 baseTableName="cls_class_location"
+                                 constraintName="fk_cls_class_location_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cls_class"
+        />
+    </changeSet>
 
 </databaseChangeLog>
