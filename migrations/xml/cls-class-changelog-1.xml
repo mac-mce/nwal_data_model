@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="${default_author}" id="cls-class-type-table" failOnError="true">
+        <comment>Create class type table</comment>
+        <createTable tableName="cls_class_type">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_cls_class_type"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="certification_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cls_class"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="${default_author}" id="cls-class-type-name-ux" failOnError="true">
+        <comment>Names must be unique</comment>
+        <createIndex
+                indexName="ix_cls_class_type_name"
+                tableName="cls_class_type"
+                unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="${default_author}" id="cls-class-type-certification-fk">
+        <comment>Claases are for Certifications</comment>
+        <addForeignKeyConstraint baseColumnNames="certification_id"
+                                 baseTableName="cls_class_type"
+                                 constraintName="fk_cls_class_type_certification_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crt_certification"
+        />
+    </changeSet>
+
+  <changeSet author="${default_author}" id="cls-class-table" failOnError="true">
+        <comment>Create class table</comment>
+        <createTable tableName="cls_class">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_cls_class"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class_type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cls_class"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="${default_author}" id="cls-class-name-ux" failOnError="true">
+        <comment>Names must be unique</comment>
+        <createIndex
+                indexName="ix_cls_class_name"
+                tableName="cls_class"
+                unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="cls-class-class-type-fk">
+        <comment>Claases are for Certifications</comment>
+        <addForeignKeyConstraint baseColumnNames="class_type_id"
+                                 baseTableName="cls_class"
+                                 constraintName="fk_cls_class_class_type_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cls_class_type"
+        />
+    </changeSet>
+
+
+
+</databaseChangeLog>

@@ -31,10 +31,10 @@
             <column name="max_attempts" type="INT" defaultValue="3">
                 <constraints nullable="false"/>
             </column>
-            <column name="active_from" type="TIMESTAMP">
+            <column name="active_from" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="expires_after" type="TIMESTAMP">
+            <column name="expires_after" type="DATE">
                 <constraints nullable="true"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">

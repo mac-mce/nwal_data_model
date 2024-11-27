@@ -16,13 +16,15 @@
     <property name="default_timestamp" value="01-DEC-25 1.00.00.0 AM" dbms="oracle"/>
 
     <include file="./sys-property-changelog-1.xml"/>
+    <include file="./crt-certification-changelog-1.xml"/>
     <include file="./sys-user-changelog-1.xml"/>
     <include file="./org-league-changelog-1.xml"/>
     <include file="./org-division-changelog-1.xml"/>
     <include file="./tms-pool-changelog-1.xml"/>
     <include file="./tms-team-changelog-1.xml"/>
-    <include file="./crt-certification-changelog-1.xml"/>
     <include file="./crt-test-changelog-1.xml"/>
     <include file="./crt-test-changelog-2.xml"/>
+    <include file="./wvr-waiver-changelog-1.xml"/>
+    <include file="./cls-class-changelog-1.xml"/>
 
 </databaseChangeLog>

@@ -65,6 +65,9 @@
             <column name="email_address" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="certification_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
 
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
@@ -76,6 +79,18 @@
         <rollback>
             <dropTable tableName="sys_user"/>
         </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user-certification-fk">
+        <comment>Users get certs</comment>
+        <addForeignKeyConstraint baseColumnNames="certification_id"
+                                 baseTableName="sys_user"
+                                 constraintName="fk_sys_user_certification_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crt_certification"
+        />
     </changeSet>
 
     <changeSet author="${default_author}" id="sys-user-username-ux" failOnError="true">
@@ -99,7 +114,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="sys-user_role-table" failOnError="true">
-        <comment>Create a table to store Users</comment>
+        <comment>Create a table to store User roles</comment>
         <createTable tableName="sys_user_role">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_sys_user_role"/>
@@ -137,7 +152,7 @@
         <comment>Users get background Checks</comment>
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="sys_user_role"
-                                 constraintName="fk_crt_user_role_user_id"
+                                 constraintName="fk_sys_user_role_user_id"
                                  onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
@@ -149,7 +164,7 @@
         <comment>Users get background Checks</comment>
         <addForeignKeyConstraint baseColumnNames="role_id"
                                  baseTableName="sys_user_role"
-                                 constraintName="fk_crt_user_role__id"
+                                 constraintName="fk_sys_user_role_id"
                                  onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
@@ -157,7 +172,8 @@
         />
     </changeSet>
 
-    <changeSet author="${default_author}" id="sys-user_bg-table" failOnError="true">
+
+    <changeSet author="${default_author}" id="sys-user-bg-table" failOnError="true">
         <comment>Create a table to store User Background Checks</comment>
         <createTable tableName="sys_user_bg_check">
             <column name="id" type="INT" autoIncrement="true">
@@ -172,10 +188,10 @@
             <column name="issuer" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="verified" type="TIMESTAMP">
+            <column name="verified" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="expires" type="TIMESTAMP">
+            <column name="expires" type="DATE">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
@@ -194,7 +210,7 @@
         <comment>Users get background Checks</comment>
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="sys_user_bg_check"
-                                 constraintName="fk_crt_bg_check_user_id"
+                                 constraintName="fk_sys_user_bg_check_user_id"
                                  onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
                                  referencedColumnNames="id"
@@ -202,5 +218,52 @@
         />
     </changeSet>
 
+
+
+
+    <changeSet author="${default_author}" id="sys-user-document-table" failOnError="true">
+        <comment>Create a table to store User Document</comment>
+        <createTable tableName="sys_user_document">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_sys_user_document_check"/>
+            </column>
+            <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="update_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="sys_user_document"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="sys-user_document-fk">
+        <comment>Users get documents</comment>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="sys_user_document"
+                                 constraintName="fk_sys_user_document_user_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
+    </changeSet>
 
 </databaseChangeLog>

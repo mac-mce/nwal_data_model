@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="${default_author}" id="crt-certification-create-table" failOnError="true">
+    <changeSet author="${default_author}" id="crt-certification-table" failOnError="true">
         <comment>Create Certification table</comment>
         <createTable tableName="crt_certification">
             <column name="id" type="INT" autoIncrement="true">
