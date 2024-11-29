@@ -98,6 +98,9 @@
             <column name="comments" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
+            <column name="active" type="BOOLEAN" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
             <column defaultValueComputed="CURRENT_TIMESTAMP" name="create_timestamp" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
