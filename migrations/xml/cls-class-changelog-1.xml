@@ -33,14 +33,14 @@
     <changeSet author="${default_author}" id="cls-class-type-name-ux" failOnError="true">
         <comment>Names must be unique</comment>
         <createIndex
-                indexName="ix_cls_class_type_name"
+                indexName="ux_cls_class_type_name"
                 tableName="cls_class_type"
                 unique="true">
             <column name="name"/>
         </createIndex>
     </changeSet>
     <changeSet author="${default_author}" id="cls-class-type-certification-fk">
-        <comment>Claases are for Certifications</comment>
+        <comment>Class types are linked to certifications</comment>
         <addForeignKeyConstraint baseColumnNames="certification_id"
                                  baseTableName="cls_class_type"
                                  constraintName="fk_cls_class_type_certification_id"
@@ -81,7 +81,7 @@
     <changeSet author="${default_author}" id="cls-class-name-ux" failOnError="true">
         <comment>Names must be unique</comment>
         <createIndex
-                indexName="ix_cls_class_name"
+                indexName="ux_cls_class_name"
                 tableName="cls_class"
                 unique="true">
             <column name="name"/>
@@ -89,7 +89,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="cls-class-class-type-fk">
-        <comment>Claases are for Certifications</comment>
+        <comment>Classes are linked to class types</comment>
         <addForeignKeyConstraint baseColumnNames="class_type_id"
                                  baseTableName="cls_class"
                                  constraintName="fk_cls_class_class_type_id"

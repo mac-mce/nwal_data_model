@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!--
+        Performance Optimization Indexes
+        This changelog adds indexes on foreign keys and tenantid columns for optimal query performance
+    -->
+
+    <!-- System Domain Indexes -->
+    <changeSet author="${default_author}" id="sys-domain-fk-indexes">
+        <comment>Add indexes on foreign key columns in system domain</comment>
+
+        <createIndex indexName="ix_sys_user_certification_id" tableName="sys_user">
+            <column name="certification_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_role_user_id" tableName="sys_user_role">
+            <column name="user_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_role_role_id" tableName="sys_user_role">
+            <column name="role_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_bg_check_user_id" tableName="sys_user_bg_check">
+            <column name="user_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_document_user_id" tableName="sys_user_document">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Certification Domain Indexes -->
+    <changeSet author="${default_author}" id="crt-domain-fk-indexes">
+        <comment>Add indexes on foreign key columns in certification domain</comment>
+
+        <createIndex indexName="ix_crt_test_certification_id" tableName="crt_test">
+            <column name="crt_certification_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_question_certification_id" tableName="crt_question">
+            <column name="crt_certification_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_question_test_id" tableName="crt_test_question">
+            <column name="crt_test_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_test_id" tableName="crt_test_attempt">
+            <column name="crt_test_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_taker_id" tableName="crt_test_attempt">
+            <column name="taker_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_answer_attempt_id" tableName="crt_test_attempt_answer">
+            <column name="crt_test_attempt_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_answer_question_id" tableName="crt_test_attempt_answer">
+            <column name="crt_test_question_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Class Domain Indexes -->
+    <changeSet author="${default_author}" id="cls-domain-fk-indexes">
+        <comment>Add indexes on foreign key columns in class domain</comment>
+
+        <createIndex indexName="ix_cls_class_type_certification_id" tableName="cls_class_type">
+            <column name="certification_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_class_type_id" tableName="cls_class">
+            <column name="class_type_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_roster_class_id" tableName="cls_class_roster">
+            <column name="class_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_roster_student_id" tableName="cls_class_roster">
+            <column name="student_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_location_class_id" tableName="cls_class_location">
+            <column name="class_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Organization and Team Domain Indexes -->
+    <changeSet author="${default_author}" id="org-tms-domain-fk-indexes">
+        <comment>Add indexes on foreign key columns in organization and team domains</comment>
+
+        <createIndex indexName="ix_org_division_league_id" tableName="org_division">
+            <column name="org_league_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_status_id" tableName="tms_team">
+            <column name="tms_team_status_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_division_id" tableName="tms_team">
+            <column name="org_division_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_pool_id" tableName="tms_team">
+            <column name="tms_pool_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_contact_role_id" tableName="tms_team_contact">
+            <column name="tms_team_role_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Waiver Domain Indexes -->
+    <changeSet author="${default_author}" id="wvr-domain-fk-indexes">
+        <comment>Add indexes on foreign key columns in waiver domain</comment>
+
+        <createIndex indexName="ix_wvr_waiver_from_team" tableName="wvr_waiver">
+            <column name="from_team"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_to_team" tableName="wvr_waiver">
+            <column name="to_team"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_submitby_team" tableName="wvr_waiver">
+            <column name="submitby_team"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_teamrep_status" tableName="wvr_waiver">
+            <column name="teamrep_status"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_org_status" tableName="wvr_waiver">
+            <column name="org_status"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_approval_waiver_id" tableName="wvr_waiver_approval">
+            <column name="waiver_id"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_approval_team_rep_id" tableName="wvr_waiver_approval">
+            <column name="team_rep_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Tenant ID Indexes for Multi-Tenant Queries -->
+    <changeSet author="${default_author}" id="tenantid-indexes-system">
+        <comment>Add tenantid indexes for multi-tenant query optimization - System domain</comment>
+
+        <createIndex indexName="ix_sys_role_tenantid" tableName="sys_role">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_tenantid" tableName="sys_user">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_role_tenantid" tableName="sys_user_role">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_bg_check_tenantid" tableName="sys_user_bg_check">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_sys_user_document_tenantid" tableName="sys_user_document">
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="tenantid-indexes-certification">
+        <comment>Add tenantid indexes for multi-tenant query optimization - Certification domain</comment>
+
+        <createIndex indexName="ix_crt_certification_tenantid" tableName="crt_certification">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_tenantid" tableName="crt_test">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_question_tenantid" tableName="crt_question">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_question_tenantid" tableName="crt_test_question">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_tenantid" tableName="crt_test_attempt">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_crt_test_attempt_answer_tenantid" tableName="crt_test_attempt_answer">
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="tenantid-indexes-class">
+        <comment>Add tenantid indexes for multi-tenant query optimization - Class domain</comment>
+
+        <createIndex indexName="ix_cls_class_type_tenantid" tableName="cls_class_type">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_tenantid" tableName="cls_class">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_roster_tenantid" tableName="cls_class_roster">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_cls_class_location_tenantid" tableName="cls_class_location">
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="tenantid-indexes-org-team">
+        <comment>Add tenantid indexes for multi-tenant query optimization - Organization and Team domains</comment>
+
+        <createIndex indexName="ix_org_league_tenantid" tableName="org_league">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_org_division_tenantid" tableName="org_division">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_pool_tenantid" tableName="tms_pool">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_role_tenantid" tableName="tms_team_role">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_status_tenantid" tableName="tms_team_status">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_contact_tenantid" tableName="tms_team_contact">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_tms_team_tenantid" tableName="tms_team">
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="tenantid-indexes-waiver">
+        <comment>Add tenantid indexes for multi-tenant query optimization - Waiver domain</comment>
+
+        <createIndex indexName="ix_wvr_waiver_status_tenantid" tableName="wvr_waiver_status">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_tenantid" tableName="wvr_waiver">
+            <column name="tenantid"/>
+        </createIndex>
+
+        <createIndex indexName="ix_wvr_waiver_approval_tenantid" tableName="wvr_waiver_approval">
+            <column name="tenantid"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Composite Indexes for Common Query Patterns -->
+    <changeSet author="${default_author}" id="composite-indexes-performance">
+        <comment>Add composite indexes for common query patterns</comment>
+
+        <!-- Background check expiration queries -->
+        <createIndex indexName="ix_sys_user_bg_check_user_expires" tableName="sys_user_bg_check">
+            <column name="user_id"/>
+            <column name="expires"/>
+        </createIndex>
+
+        <!-- Active tests for certification within date range -->
+        <createIndex indexName="ix_crt_test_cert_active" tableName="crt_test">
+            <column name="crt_certification_id"/>
+            <column name="active_from"/>
+            <column name="expires_after"/>
+        </createIndex>
+
+        <!-- Test attempts by user and test, ordered by submission -->
+        <createIndex indexName="ix_crt_test_attempt_user_test_submitted" tableName="crt_test_attempt">
+            <column name="taker_id"/>
+            <column name="crt_test_id"/>
+            <column name="submitted"/>
+        </createIndex>
+
+        <!-- Classes attended by student -->
+        <createIndex indexName="ix_cls_class_roster_student_attended" tableName="cls_class_roster">
+            <column name="student_id"/>
+            <column name="attended_class"/>
+        </createIndex>
+
+        <!-- Active team contacts by role -->
+        <createIndex indexName="ix_tms_team_contact_role_active" tableName="tms_team_contact">
+            <column name="tms_team_role_id"/>
+            <column name="active"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

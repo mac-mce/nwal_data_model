@@ -26,5 +26,6 @@
     <include file="./crt-test-changelog-2.xml"/>
     <include file="./wvr-waiver-changelog-1.xml"/>
     <include file="./cls-class-changelog-1.xml"/>
+    <include file="./performance-indexes-changelog-1.xml"/>
 
 </databaseChangeLog>
