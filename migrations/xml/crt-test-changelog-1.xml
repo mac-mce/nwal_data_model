@@ -51,7 +51,7 @@
     <changeSet author="${default_author}" id="crt-test-name-ux" failOnError="true">
         <comment>Name must be unique</comment>
         <createIndex
-                indexName="ix_crt_test_name"
+                indexName="ux_crt_test_name"
                 tableName="crt_test"
                 unique="true">
             <column name="name"/>

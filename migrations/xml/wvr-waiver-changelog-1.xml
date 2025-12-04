@@ -134,10 +134,10 @@
             <column name="waiver_reason" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="teamrep_status" type="VARCHAR(255)">
+            <column name="teamrep_status" type="INT">
                 <constraints nullable="true"/>
             </column>
-            <column name="org_status" type="VARCHAR(255)">
+            <column name="org_status" type="INT">
                 <constraints nullable="true"/>
             </column>
             <column name="org_date" type="DATE">
@@ -168,7 +168,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="wvr_waiver_teamrep_status-fk">
-        <comment>parent status</comment>
+        <comment>Link waiver to team representative approval status</comment>
         <addForeignKeyConstraint baseColumnNames="teamrep_status"
                                  baseTableName="wvr_waiver"
                                  constraintName="fk_wvr_waiver_teamrep_status"
@@ -180,7 +180,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="wvr_waiver_org_status-fk">
-        <comment>parent status</comment>
+        <comment>Link waiver to organization approval status</comment>
         <addForeignKeyConstraint baseColumnNames="org_status"
                                  baseTableName="wvr_waiver"
                                  constraintName="fk_wvr_waiver_org_status"
@@ -193,7 +193,7 @@
 
 
     <changeSet author="${default_author}" id="wvr_waiver_fromteam-fk">
-        <comment>swimmers are aggigned teams teams</comment>
+        <comment>Link waiver to swimmer's current team</comment>
         <addForeignKeyConstraint baseColumnNames="from_team"
                                  baseTableName="wvr_waiver"
                                  constraintName="fk_wvr_waiver_fromteam"
@@ -205,7 +205,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="wvr_waiver_toteam-fk">
-        <comment>swimmers want to change  teams</comment>
+        <comment>Link waiver to swimmer's requested destination team</comment>
         <addForeignKeyConstraint baseColumnNames="to_team"
                                  baseTableName="wvr_waiver"
                                  constraintName="fk_wvr_waiver_toteam"
@@ -217,7 +217,7 @@
     </changeSet>
 
     <changeSet author="${default_author}" id="wvr_waiver_submitbyteam-fk">
-        <comment>Divisions haveTeams</comment>
+        <comment>Link waiver to the team submitting the request</comment>
         <addForeignKeyConstraint baseColumnNames="submitby_team"
                                  baseTableName="wvr_waiver"
                                  constraintName="fk_wvr_waiver_submitbyteam"
@@ -238,6 +238,10 @@
                 <constraints primaryKey="true" primaryKeyName="pk_wvr_waiver_approval"/>
             </column>
             <column name="tenantid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="waiver_id" type="INT">
                 <constraints nullable="false"/>
             </column>
 
@@ -263,6 +267,30 @@
         <rollback>
             <dropTable tableName="wvr_waiver_approval"/>
         </rollback>
+    </changeSet>
+
+    <changeSet author="${default_author}" id="wvr_waiver_approval-waiver-fk">
+        <comment>Link approval to waiver request</comment>
+        <addForeignKeyConstraint baseColumnNames="waiver_id"
+                                 baseTableName="wvr_waiver_approval"
+                                 constraintName="fk_wvr_waiver_approval_waiver_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="wvr_waiver"
+        />
+    </changeSet>
+
+    <changeSet author="${default_author}" id="wvr_waiver_approval-team_rep-fk">
+        <comment>Link approval to team representative user</comment>
+        <addForeignKeyConstraint baseColumnNames="team_rep_id"
+                                 baseTableName="wvr_waiver_approval"
+                                 constraintName="fk_wvr_waiver_approval_team_rep_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sys_user"
+        />
     </changeSet>
 
 
